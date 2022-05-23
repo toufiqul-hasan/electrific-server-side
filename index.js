@@ -36,12 +36,15 @@ async function run() {
   try {
     await client.connect();
     const userCollection = client.db("Electrific").collection("users");
+    const userInfoCollection = client.db("Electrific").collection("userInfo");
 
+    // Get user
     app.get("/user", verifyJWT, async (req, res) => {
       const users = await userCollection.find().toArray();
       res.send(users);
     });
 
+    // Get specific user
     app.put("/user/:email", async (req, res) => {
       const email = req.params.email;
       const user = req.body;
@@ -57,6 +60,35 @@ async function run() {
         { expiresIn: "1h" }
       );
       res.send({ result, token });
+    });
+
+    // Add user info
+    app.post("/user-info", async (req, res) => {
+      const newUser = req.body;
+      const result = await userInfoCollection.insertOne(newUser);
+      res.send(result);
+    });
+
+    // Get user info
+    app.get("/user-info", verifyJWT, async (req, res) => {
+      const decodedEmail = req.decoded.email;
+      const email = req.query.email;
+      if (email === decodedEmail) {
+        const query = { email: email };
+        const cursor = userInfoCollection.find(query);
+        const user = await cursor.toArray();
+        res.send(user);
+      } 
+      else {
+        res.status(403).send({ message: "Forbidden Access" });
+      }
+    });
+
+    app.delete("/user-info/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const result = await userInfoCollection.deleteOne(query);
+      res.send(result);
     });
   } finally {
   }
