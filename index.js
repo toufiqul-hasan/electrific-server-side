@@ -17,6 +17,7 @@ const client = new MongoClient(uri, {
   serverApi: ServerApiVersion.v1,
 });
 
+// Verify JWT
 function verifyJWT(req, res, next) {
   const authHeader = req.headers.authorization;
   if (!authHeader) {
@@ -78,12 +79,12 @@ async function run() {
         const cursor = userInfoCollection.find(query);
         const user = await cursor.toArray();
         res.send(user);
-      } 
-      else {
+      } else {
         res.status(403).send({ message: "Forbidden Access" });
       }
     });
 
+    // Delete user info
     app.delete("/user-info/:id", async (req, res) => {
       const id = req.params.id;
       const query = { _id: ObjectId(id) };
