@@ -108,6 +108,14 @@ async function run() {
       const review = await cursor.toArray();
       res.send(review);
     });
+
+    // Get all user reviews
+    app.get("/user-reviews", async (req, res) => {
+      const query = {};
+      const cursor = reviewCollection.find(query);
+      const review = await cursor.toArray();
+      res.send(review);
+    });
   } finally {
   }
 }
