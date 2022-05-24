@@ -100,6 +100,14 @@ async function run() {
       res.send(result);
     });
 
+    // Get specific user reviews
+    app.get("/user-review", async (req, res) => {
+      const email = req.query.email;
+      const query = { email: email };
+      const cursor = reviewCollection.find(query);
+      const review = await cursor.toArray();
+      res.send(review);
+    });
   } finally {
   }
 }
