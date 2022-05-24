@@ -92,7 +92,7 @@ async function run() {
       const token = jwt.sign(
         { email: email },
         process.env.ACCESS_TOKEN_SECRET,
-        { expiresIn: "1h" }
+        { expiresIn: "1d" }
       );
       res.send({ result, token });
     });
@@ -148,6 +148,14 @@ async function run() {
       const cursor = reviewCollection.find(query);
       const review = await cursor.toArray();
       res.send(review);
+    });
+
+    // Get all inventory items
+    app.get("/product", async (req, res) => {
+      const query = {};
+      const cursor = productCollection.find(query);
+      const product = await cursor.toArray();
+      res.send(product);
     });
 
     // Add product
