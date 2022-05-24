@@ -39,6 +39,7 @@ async function run() {
     const userCollection = client.db("Electrific").collection("users");
     const userInfoCollection = client.db("Electrific").collection("userInfo");
     const reviewCollection = client.db("Electrific").collection("reviews");
+    const productCollection = client.db("Electrific").collection("products");
 
     // Verify admin
     const verifyAdmin = async (req, res, next) => {
@@ -147,6 +148,13 @@ async function run() {
       const cursor = reviewCollection.find(query);
       const review = await cursor.toArray();
       res.send(review);
+    });
+
+    // Add product
+    app.post("/product", async (req, res) => {
+      const newProduct = req.body;
+      const result = await productCollection.insertOne(newProduct);
+      res.send(result);
     });
   } finally {
   }
