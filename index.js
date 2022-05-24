@@ -38,6 +38,7 @@ async function run() {
     await client.connect();
     const userCollection = client.db("Electrific").collection("users");
     const userInfoCollection = client.db("Electrific").collection("userInfo");
+    const reviewCollection = client.db("Electrific").collection("reviews");
 
     // Get user
     app.get("/user", verifyJWT, async (req, res) => {
@@ -91,6 +92,14 @@ async function run() {
       const result = await userInfoCollection.deleteOne(query);
       res.send(result);
     });
+
+    // Add user review
+    app.post("/user-review", async (req, res) => {
+      const newReview = req.body;
+      const result = await reviewCollection.insertOne(newReview);
+      res.send(result);
+    });
+
   } finally {
   }
 }
