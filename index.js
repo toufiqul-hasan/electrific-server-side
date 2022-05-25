@@ -55,6 +55,12 @@ async function run() {
       }
     };
 
+    // Get all order for admin
+    app.get("/orders", verifyJWT, verifyAdmin, async (req, res) => {
+      const orders = await orderCollection.find().toArray();
+      res.send(orders);
+    });
+
     // Get user
     app.get("/user", verifyJWT, async (req, res) => {
       const users = await userCollection.find().toArray();
@@ -180,12 +186,6 @@ async function run() {
       const query = { _id: ObjectId(id) };
       const result = await productCollection.deleteOne(query);
       res.send(result);
-    });
-
-    // Get all order for admin
-    app.get("/order", verifyJWT, verifyAdmin, async (req, res) => {
-      const orders = await orderCollection.find().toArray();
-      res.send(orders);
     });
 
     // Get order info
