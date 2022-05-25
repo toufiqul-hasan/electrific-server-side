@@ -182,6 +182,12 @@ async function run() {
       res.send(result);
     });
 
+    // Get all order for admin
+    app.get("/order", verifyJWT, verifyAdmin, async (req, res) => {
+      const orders = await orderCollection.find().toArray();
+      res.send(orders);
+    });
+
     // Get order info
     app.get("/order", verifyJWT, async (req, res) => {
       const decodedEmail = req.decoded.email;
