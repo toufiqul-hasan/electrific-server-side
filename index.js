@@ -40,6 +40,7 @@ async function run() {
     const userInfoCollection = client.db("Electrific").collection("userInfo");
     const reviewCollection = client.db("Electrific").collection("reviews");
     const productCollection = client.db("Electrific").collection("products");
+    const orderCollection = client.db("Electrific").collection("orders");
 
     // Verify admin
     const verifyAdmin = async (req, res, next) => {
@@ -150,12 +151,20 @@ async function run() {
       res.send(review);
     });
 
-    // Get all inventory items
+    // Get all product
     app.get("/product", async (req, res) => {
       const query = {};
       const cursor = productCollection.find(query);
       const product = await cursor.toArray();
       res.send(product);
+    });
+
+    // Get specific product
+    app.get("/product/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const tool = await productCollection.findOne(query);
+      res.send(tool);
     });
 
     // Add product
@@ -172,6 +181,36 @@ async function run() {
       const result = await productCollection.deleteOne(query);
       res.send(result);
     });
+
+    // Get order info
+    app.get("/order", verifyJWT, async (req, res) => {
+      const decodedEmail = req.decoded.email;
+      const email = req.query.email;
+      if (email === decodedEmail) {
+        const query = { email: email };
+        const cursor = orderCollection.find(query);
+        const order = await cursor.toArray();
+        res.send(order);
+      } else {
+        res.status(403).send({ message: "Forbidden Access" });
+      }
+    });
+
+    // Add order
+    app.post("/order", async (req, res) => {
+      const newOrder = req.body;
+      const result = await orderCollection.insertOne(newOrder);
+      res.send(result);
+    });
+
+    // Delete specific order
+    app.delete("/order/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const result = await orderCollection.deleteOne(query);
+      res.send(result);
+    });
+
   } finally {
   }
 }
