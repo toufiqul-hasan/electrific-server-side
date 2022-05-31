@@ -1,5 +1,5 @@
 {
-  "name": "electrific-server-side",
+  "name": "electrific",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -8,9 +8,17 @@
     "start-dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/toufiqul-hasan/electrific-server-side.git"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/toufiqul-hasan/electrific-server-side/issues"
+  },
+  "homepage": "https://github.com/toufiqul-hasan/electrific-server-side#readme",
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^16.0.1",
