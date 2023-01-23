@@ -18,6 +18,7 @@
 - User can make payment using credit card.
 - Admin can manage all orders, add products, manage products and make another user an admin.
 
+
 ## Technologies Used In Client Side:
 
 - [Create React App](https://github.com/facebook/create-react-app)
@@ -38,6 +39,6 @@
 - [Cors](https://www.npmjs.com/package/cors)
 - [Dotenv](https://www.npmjs.com/package/dotenv)
 - [Express.js](https://expressjs.com)
-- [Heroku](https://www.heroku.com)
+- [Render](https://render.com)
 - [Json Web Token](https://jwt.io)
 - [MongoDB](https://www.mongodb.com)
